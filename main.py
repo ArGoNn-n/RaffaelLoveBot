@@ -1,4 +1,5 @@
 import os
+import asyncio
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler
 from telegram import Update
 from pymongo import MongoClient
@@ -102,5 +103,9 @@ async def main():
     await app.run_polling(allowed_updates=Update.ALL_TYPES)
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+    # Отримуємо поточний event loop
+    loop = asyncio.get_event_loop()
+    # Запускаємо main у поточному циклі
+    loop.create_task(main())
+    # Тримаємо цикл активним
+    loop.run_forever()
